@@ -6,10 +6,18 @@ import io
 from openai import OpenAI
 from flask import Flask, request, jsonify, render_template
 # ... (rest of your imports and config)
-
+from flask_cors import CORS
 
 
 app = Flask(__name__)
+CORS(app)
+from flask import send_from_directory
+
+@app.route("/extension/<path:filename>")
+def extension_files(filename):
+    return send_from_directory("tableau-extension", filename)
+
+
 
 # ---- Configuration ----
 PAT_NAME = "test"
@@ -17,7 +25,7 @@ PAT_SECRET = "MMPfXGM1SiiimTQoRV7HTA==:cSqLgPrazgDIvtrl5wlPB9GKdZTTMFTH"
 SITE_CONTENT_URL = "multinetpakistanpvtltd"
 TABLEAU_SERVER = "https://prod-apnortheast-a.online.tableau.com"
 VIEW_ID = "6bcc2ce9-60e5-4c42-9ff1-e38b14e82f74"
-OPENAI_API_KEY = "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"  # Replace with your valid key
+OPENAI_API_KEY = "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"  
 
 # ---- Helper: Sign in to Tableau ----
 def get_tableau_data():
@@ -89,4 +97,5 @@ def ask_question():
 
 # ---- Run Flask App ----
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, ssl_context=("cert.pem", "key.pem"))
+    # app.run(debug=True)
