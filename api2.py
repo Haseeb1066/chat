@@ -25,7 +25,7 @@ PAT_SECRET = "MMPfXGM1SiiimTQoRV7HTA==:cSqLgPrazgDIvtrl5wlPB9GKdZTTMFTH"
 SITE_CONTENT_URL = "multinetpakistanpvtltd"
 TABLEAU_SERVER = "https://prod-apnortheast-a.online.tableau.com"
 VIEW_ID = "6bcc2ce9-60e5-4c42-9ff1-e38b14e82f74"
-OPENAI_API_KEY = "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"  
+OPENAI_API_KEY = "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"  
 
 # ---- Helper: Sign in to Tableau ----
 def get_tableau_data():
