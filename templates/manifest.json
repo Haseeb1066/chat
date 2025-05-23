@@ -1,14 +1,28 @@
 {
-  "manifest_version": 1,
-  "version": "1.0",
-  "name": "Chatbot Extension",
-  "description": "Interact with your chatbot from Tableau",
+  "manifest_version": "1.0",
+  "id": "tableau-chat-assistant",
+  "name": "Tableau Chat Assistant",
   "author": "Haseeb",
-  "homepage_url": "https://172.16.2.131:5000",
+  "description": "An AI-powered assistant for Tableau dashboards using a Flask API.",
+  "version": "1.0.0",
   "scripts": [],
-  "main": "index.html",
-  "permissions": ["tableau"],
-  "min_api_version": "1.1",
-  "extension_id": "chatbot-extension",
-  "extension_type": "dashboard"
+  "styleSheets": [],
+  "icons": {
+    "16": "https://img.icons8.com/color/48/000000/chat--v1.png",
+    "32": "https://img.icons8.com/color/64/000000/chat--v1.png",
+    "48": "https://img.icons8.com/color/96/000000/chat--v1.png"
+  },
+  "runtime": {
+    "enableLegacyReplacements": false,
+    "language": "en-US"
+  },
+  "extension_type": "dashboard",
+  "permissions": [],
+  "contexts": [
+    "dashboard"
+  ],
+  "web": {
+    "url": "https://flask-api-hec2.onrender.com/index.html",
+    "sandbox": true
+  }
 }

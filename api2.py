@@ -65,6 +65,15 @@ def get_tableau_data():
 def index():
     return render_template("chat.html")
 
+@app.route('/index.html')
+def extension_ui():
+    return send_from_directory('tableau-extension', 'index.html')
+
+# Serve Tableau manifest.json
+@app.route('/manifest.json')
+def extension_manifest():
+    return send_from_directory('tableau-extension', 'manifest.json')
+
 # ---- OpenAI Client ----
 # client = OpenAI(api_key=OPENAI_API_KEY)
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
