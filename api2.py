@@ -5,14 +5,15 @@ import pandas as pd
 import io
 from openai import OpenAI
 from flask import Flask, request, jsonify, render_template
-# ... (rest of your imports and config)
-from flask_cors import CORS
+from dotenv import load_dotenv
 
+from flask_cors import CORS
+import os
 
 app = Flask(__name__)
 CORS(app)
 from flask import send_from_directory
-
+load_dotenv()
 @app.route("/extension/<path:filename>")
 def extension_files(filename):
     return send_from_directory("tableau-extension", filename)
@@ -25,7 +26,8 @@ PAT_SECRET = "MMPfXGM1SiiimTQoRV7HTA==:cSqLgPrazgDIvtrl5wlPB9GKdZTTMFTH"
 SITE_CONTENT_URL = "multinetpakistanpvtltd"
 TABLEAU_SERVER = "https://prod-apnortheast-a.online.tableau.com"
 VIEW_ID = "6bcc2ce9-60e5-4c42-9ff1-e38b14e82f74"
-OPENAI_API_KEY = "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"  
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+# OPENAI_API_KEY = "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"  
 
 # ---- Helper: Sign in to Tableau ----
 def get_tableau_data():
@@ -64,8 +66,8 @@ def index():
     return render_template("chat.html")
 
 # ---- OpenAI Client ----
-client = OpenAI(api_key=OPENAI_API_KEY)
-
+# client = OpenAI(api_key=OPENAI_API_KEY)
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 # ---- API Route ----
 @app.route("/ask", methods=["POST"])
 def ask_question():
