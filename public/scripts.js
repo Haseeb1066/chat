@@ -4,7 +4,7 @@ async function sendMessage() {
 
   document.getElementById("chat-box").innerHTML += `<div><b>You:</b> ${input}</div>`;
 
-  const response = await fetch("https://your-backend.onrender.com/chat", {
+  const response = await fetch("https://flask-api-hec2.onrender.com/chat", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ prompt: input }),

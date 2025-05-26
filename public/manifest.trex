@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Manifest xmlns="http://tableau.com/xml/user" version="1.0">
+  <WebDataConnector>
+    <Name>Chatbot Assistant</Name>
+    <Description>Ask HR-related questions via OpenAI-powered chatbot inside Tableau</Description>
+    <Author>Haseeb</Author>
+    <Email>your-email@example.com</Email>
+    <Url>https://tableau-extension.onrender.com/index.html</Url>
+    <Version>1.0.0</Version>
+    <MinApiVersion>1.0</MinApiVersion>
+    <ExtensionId>chatbot-021</ExtensionId>
+    <ExtensionType>dashboard</ExtensionType>
+    <Permissions>
+      <Permission>datasources</Permission>
+      <Permission>tableau</Permission>
+    </Permissions>
+  </WebDataConnector>
+</Manifest>
