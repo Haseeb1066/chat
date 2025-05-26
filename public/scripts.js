@@ -1,8 +1,13 @@
-// Replace with your actual Render backend URL
 const BACKEND_URL = "https://flask-api-hec2.onrender.com";
 
 async function askQuestion(prompt) {
+  const loader = document.getElementById("loader");
+  const replyBox = document.getElementById("reply");
+
   try {
+    loader.style.display = "inline-block";  // Show loader
+    replyBox.innerText = "";                // Clear previous reply
+
     const response = await fetch(`${BACKEND_URL}/chat`, {
       method: "POST",
       headers: {
@@ -12,9 +17,11 @@ async function askQuestion(prompt) {
     });
 
     const data = await response.json();
-    document.getElementById("reply").innerText = data.reply;
+    replyBox.innerText = data.reply;
   } catch (error) {
     console.error(error);
-    document.getElementById("reply").innerText = "Error: Failed to fetch";
+    replyBox.innerText = "Error: Failed to fetch";
+  } finally {
+    loader.style.display = "none";  // Hide loader
   }
 }

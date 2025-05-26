@@ -3,18 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <title>Chat with AI</title>
+  <style>
+    #loader {
+      display: none;
+      font-style: italic;
+      color: gray;
+    }
+  </style>
 </head>
 <body>
   <h1>AI Chatbot</h1>
   <textarea id="prompt" rows="4" cols="50" placeholder="Type your question..."></textarea><br><br>
   <button onclick="sendPrompt()">Ask</button>
+
   <p><strong>Reply:</strong></p>
+  <div id="loader">Thinking...</div>
   <div id="response" style="white-space: pre-wrap;"></div>
 
   <script>
     async function sendPrompt() {
       const prompt = document.getElementById("prompt").value;
       const responseBox = document.getElementById("response");
+      const loader = document.getElementById("loader");
+
+      responseBox.textContent = "";      // Clear previous response
+      loader.style.display = "inline";   // Show loader
 
       try {
         const response = await fetch('https://flask-api-hec2.onrender.com/chat', {
@@ -29,6 +42,8 @@
         responseBox.textContent = data.reply;
       } catch (error) {
         responseBox.textContent = 'Error: ' + error.message;
+      } finally {
+        loader.style.display = "none";   // Hide loader
       }
     }
   </script>
