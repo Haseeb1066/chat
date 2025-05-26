@@ -1,8 +1,20 @@
-const path = require("path");
-// ... rest of your code
+// Replace with your actual Render backend URL
+const BACKEND_URL = "https://flask-api-hec2.onrender.com";
 
-app.use(express.static(path.join(__dirname, '../public')));
+async function askQuestion(prompt) {
+  try {
+    const response = await fetch(`${BACKEND_URL}/chat`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ prompt }),
+    });
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
-});
+    const data = await response.json();
+    document.getElementById("reply").innerText = data.reply;
+  } catch (error) {
+    console.error(error);
+    document.getElementById("reply").innerText = "Error: Failed to fetch";
+  }
+}
