@@ -9,87 +9,51 @@ async function askQuestion(prompt) {
         replyBox.innerText = "";
 
         // Initialize Tableau extension
-        console.log("Initializing Tableau Extension...");
         await tableau.extensions.initializeAsync();
-        console.log("Tableau Extension Initialized.");
-
         const dashboard = tableau.extensions.dashboardContent.dashboard;
-        console.log("Dashboard object:", dashboard);
 
-        // --- NEW DATA COLLECTION START ---
+        // --- CODE FOR GETTING DASHBOARD NAME AND VIEW NAMES ---
 
         // 1. Get Dashboard Name
         const dashboardName = dashboard.name;
-        console.log("Dashboard Name:", dashboardName);
+        console.log("Dashboard Name:", dashboardName); // This will log the dashboard name to your browser console
 
         // 2. Get all Worksheet Names (Views) in the current workbook
+        // dashboard.worksheets is an array of Worksheet objects
+        // .map(ws => ws.name) extracts just the name from each Worksheet object
         const workbookViews = dashboard.worksheets.map(ws => ws.name);
-        console.log("All Worksheets (Views) in Workbook:", workbookViews);
+        console.log("All Worksheets (Views) in Workbook:", workbookViews); // This will log the list of view names
 
-        // 3. Get Data Sources and their associated Worksheets
-        const dataSources = await dashboard.getDataSourcesAsync(); // Get all data sources used by the dashboard
+        // 3. Get Data Sources and their associated Worksheets (More advanced, but you asked for data source list)
+        const dataSources = await dashboard.getDataSourcesAsync(); // Fetches all data sources used on the dashboard
         const dataSourcesInfo = [];
 
         for (const dataSource of dataSources) {
-            const dsWorksheets = await dataSource.getWorksheets(); // Get worksheets connected to this data source
+            const dsWorksheets = await dataSource.getWorksheets(); // Gets worksheets connected to *this specific* data source
             dataSourcesInfo.push({
                 name: dataSource.name,
-                connectionName: dataSource.connectionName, // Often useful to know
-                isPrimary: dataSource.isPrimary, // Is it the primary data source?
-                worksheets: dsWorksheets.map(ws => ws.name) // List names of connected worksheets
+                connectionName: dataSource.connectionName,
+                isPrimary: dataSource.isPrimary,
+                worksheets: dsWorksheets.map(ws => ws.name) // Names of views using this data source
             });
         }
-        console.log("Data Sources Information:", dataSourcesInfo);
+        console.log("Data Sources Information:", dataSourcesInfo); // This will log the data source details
 
-        // --- NEW DATA COLLECTION END ---
+        // --- END OF CODE FOR GETTING DASHBOARD NAME AND VIEW NAMES ---
 
-        // Target the "Drivers" worksheet for summary data (existing logic)
-        const targetWorksheetName = "Drivers";
-        const driversWorksheet = dashboard.worksheets.find(ws => ws.name === targetWorksheetName);
+        // ... (rest of your code for 'Drivers' summary data, parameters, etc.) ...
 
-        if (!driversWorksheet) {
-            const errorMessage = `Worksheet named "${targetWorksheetName}" not found on the dashboard. Please ensure it exists and is visible.`;
-            console.error(errorMessage);
-            throw new Error(errorMessage);
-        }
-        console.log(`Found worksheet: ${driversWorksheet.name}`);
-
-        const summaryData = await driversWorksheet.getSummaryDataAsync();
-        console.log(`Successfully retrieved SummaryDataReader from '${targetWorksheetName}' worksheet.`);
-
-        const dataRows = [];
-        const columns = summaryData.getColumns();
-        console.log("Columns found in summary data:", columns.map(col => col.fieldName));
-
-        while (summaryData.nextRow()) {
-            const rowData = {};
-            columns.forEach((column, index) => {
-                rowData[column.fieldName] = summaryData.getValue(index);
-            });
-            dataRows.push(rowData);
-        }
-        console.log(`Finished processing summary data. Total rows found: ${dataRows.length}`);
-        console.log("Processed Summary Data from 'Drivers' worksheet:", dataRows);
-
-        // Collect parameters from the dashboard (existing logic)
-        const parameters = await dashboard.getParametersAsync();
-        const parametersData = {};
-        parameters.forEach(param => {
-            parametersData[param.name] = param.currentValue.value;
-        });
-        console.log("Parameters collected:", parametersData);
-
-        // Log the complete data being sent to backend
+        // This is how you send it to your backend:
         console.log("Data sent to backend:", {
             prompt,
-            parameters: parametersData,
-            summaryData: dataRows,
-            dashboardName: dashboardName,         // NEW: Dashboard name
-            workbookViews: workbookViews,         // NEW: All worksheet names
-            dataSourcesInfo: dataSourcesInfo      // NEW: Data source details
+            parameters: parametersData, // Assuming you have parametersData from your previous code
+            summaryData: dataRows,       // Assuming you have dataRows from 'Drivers' worksheet
+            dashboardName: dashboardName,         // <--- HERE IT IS
+            workbookViews: workbookViews,         // <--- HERE IT IS
+            dataSourcesInfo: dataSourcesInfo      // <--- AND HERE
         });
 
-        // Send data to backend
+        // The 'body' of your fetch request should include these:
         const response = await fetch(`${BACKEND_URL}/chat`, {
             method: "POST",
             headers: {
@@ -99,9 +63,9 @@ async function askQuestion(prompt) {
                 prompt,
                 parameters: parametersData,
                 summaryData: dataRows,
-                dashboardName: dashboardName,
-                workbookViews: workbookViews,
-                dataSourcesInfo: dataSourcesInfo
+                dashboardName: dashboardName,         // <--- AND HERE
+                workbookViews: workbookViews,         // <--- AND HERE
+                dataSourcesInfo: dataSourcesInfo      // <--- AND HERE
             }),
         });
 
