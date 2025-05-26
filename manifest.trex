@@ -1,0 +1,15 @@
+<ExtensionManifest xmlns="http://tableau.com/ns/extension/manifest">
+  <Name>Chatbot Extension</Name>
+  <Description>Talk to your dashboard</Description>
+  <Author>
+    <Name>Your Name</Name>
+    <Email>your@email.com</Email>
+  </Author>
+  <HomepageUrl>https://your-hosted-url.com/index.html</HomepageUrl>
+  <ConfigureUrl>index.html</ConfigureUrl>
+  <Extension id="chatbot-extension" extension-version="1.0">
+    <Script src="script.js" />
+    <DefaultHeight>400</DefaultHeight>
+    <DefaultWidth>300</DefaultWidth>
+  </Extension>
+</ExtensionManifest>
