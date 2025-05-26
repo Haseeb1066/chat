@@ -1,17 +1,8 @@
-async function sendMessage() {
-  const input = document.getElementById("user-input").value;
-  if (!input) return;
+const path = require("path");
+// ... rest of your code
 
-  document.getElementById("chat-box").innerHTML += `<div><b>You:</b> ${input}</div>`;
+app.use(express.static(path.join(__dirname, '../public')));
 
-  const response = await fetch("https://flask-api-hec2.onrender.com/chat", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ prompt: input }),
-  });
-
-  const data = await response.json();
-  const reply = data?.reply || "No response";
-
-  document.getElementById("chat-box").innerHTML += `<div><b>Bot:</b> ${reply}</div>`;
-}
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+});

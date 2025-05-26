@@ -1,17 +1,36 @@
-<!-- public/index.html -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Chatbot Extension</title>
-  <script src="https://cdn.jsdelivr.net/npm/tableau-api@1.12.0/tableau.extensions.1.latest.min.js"></script>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Chat with AI</title>
 </head>
 <body>
-  <h3>Ask the Dashboard</h3>
-  <div id="chat-box"></div>
-  <input id="user-input" placeholder="Type your question..." />
-  <button onclick="sendMessage()">Send</button>
-  <script src="script.js"></script>
+  <h1>AI Chatbot</h1>
+  <textarea id="prompt" rows="4" cols="50" placeholder="Type your question..."></textarea><br><br>
+  <button onclick="sendPrompt()">Ask</button>
+  <p><strong>Reply:</strong></p>
+  <div id="response" style="white-space: pre-wrap;"></div>
+
+  <script>
+    async function sendPrompt() {
+      const prompt = document.getElementById("prompt").value;
+      const responseBox = document.getElementById("response");
+
+      try {
+        const response = await fetch('https://flask-api-hec2.onrender.com/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ prompt }),
+        });
+
+        const data = await response.json();
+        responseBox.textContent = data.reply;
+      } catch (error) {
+        responseBox.textContent = 'Error: ' + error.message;
+      }
+    }
+  </script>
 </body>
 </html>
