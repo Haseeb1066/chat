@@ -29,8 +29,6 @@
 
 
 
-
-
 const BACKEND_URL = "https://flask-api-hec2.onrender.com";
 
 async function askQuestion(prompt) {
@@ -43,7 +41,6 @@ async function askQuestion(prompt) {
 
     // Step 1: Initialize Tableau extension
     await tableau.extensions.initializeAsync();
-
     const dashboard = tableau.extensions.dashboardContent.dashboard;
 
     // Step 2: Collect filters
@@ -62,7 +59,23 @@ async function askQuestion(prompt) {
       parametersData[param.name] = param.currentValue.value;
     });
 
-    // Step 4: Send everything to backend
+    // Step 4: Get summary data from a specific worksheet
+    const targetWorksheetName = "Drivers (Viz)"; // ✅ CHANGE this if needed
+    const worksheet = dashboard.worksheets.find(ws => ws.name === targetWorksheetName);
+    const summaryData = await worksheet.getSummaryDataAsync();
+
+    // Convert summary data to JSON
+    const sheetData = [];
+    summaryData.data.forEach(row => {
+      const rowObj = {};
+      row.forEach((cell, i) => {
+        const colName = summaryData.columns[i].fieldName;
+        rowObj[colName] = cell.formattedValue;
+      });
+      sheetData.push(rowObj);
+    });
+
+    // Step 5: Send all data to backend
     const response = await fetch(`${BACKEND_URL}/chat`, {
       method: "POST",
       headers: {
@@ -72,6 +85,7 @@ async function askQuestion(prompt) {
         prompt,
         filters: filtersData,
         parameters: parametersData,
+        sheetData: sheetData,  // ✅ Now sending worksheet data
       }),
     });
 
