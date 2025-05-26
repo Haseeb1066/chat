@@ -1,14 +1,16 @@
+<!-- public/index.html -->
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8" />
+  <title>Chatbot Extension</title>
   <script src="https://cdn.jsdelivr.net/npm/tableau-api@1.12.0/tableau.extensions.1.latest.min.js"></script>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h2>Ask Dashboard Bot</h2>
+  <h3>Ask the Dashboard</h3>
   <div id="chat-box"></div>
-  <input type="text" id="user-input" placeholder="Ask a question..." />
+  <input id="user-input" placeholder="Type your question..." />
   <button onclick="sendMessage()">Send</button>
   <script src="script.js"></script>
 </body>
