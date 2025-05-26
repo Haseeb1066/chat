@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Manifest xmlns="http://tableau.com/application/manifest">
-  <Extension id="chatbot-extension">
-    <Name>AI Chatbot Extension</Name>
-    <Description>Ask questions and get answers using an AI chatbot.</Description>
-    <Author>
-      <Name>Haseeb</Name>
-      <Email>you@example.com</Email>
-    </Author>
-    <HomepageUrl>https://chat-3u1q.onrender.com</HomepageUrl>
-    <SourceUrl>https://chat-3u1q.onrender.com/index.html</SourceUrl>
-    <IconUrl>https://chat-3u1q.onrender.com/icon.png</IconUrl>
-    <Version>1.0.0</Version>
-    <Script>https://chat-3u1q.onrender.com/index.html</Script>
-    <DefaultLocale>en_US</DefaultLocale>
-    <RequiredPermissions>
-      <NetworkAccess>full</NetworkAccess>
-    </RequiredPermissions>
+<ExtensionManifest xmlns="http://tableau.com/xml/extension_manifest">
+  <Version>1.0</Version>
+  <Name>AI Chatbot Extension</Name>
+  <Author>
+    <Name>Haseeb</Name>
+    <Email>you@example.com</Email>
+  </Author>
+  <HomepageUrl>https://chat-3u1q.onrender.com</HomepageUrl>
+  <Description>Chatbot extension that interacts with AI backend to answer queries.</Description>
+  <Extension>
+    <Url>https://chat-3u1q.onrender.com/index.html</Url>
+    <AutoLoad>true</AutoLoad>
   </Extension>
-</Manifest>
+  <RequiredPermissions>
+    <NetworkAccess>Full</NetworkAccess>
+  </RequiredPermissions>
+</ExtensionManifest>
