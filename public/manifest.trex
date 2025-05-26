@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Manifest xmlns="http://tableau.com/xml/user" version="1.0">
-  <WebDataConnector>
-    <Name>Chatbot Assistant</Name>
-    <Description>Ask HR-related questions via OpenAI-powered chatbot inside Tableau</Description>
-    <Author>Haseeb</Author>
-    <Email>your-email@example.com</Email>
-    <Url>https://tableau-extension.onrender.com/index.html</Url>
+<Manifest xmlns="http://tableau.com/application/manifest">
+  <Extension id="chatbot-extension">
+    <Name>AI Chatbot Extension</Name>
+    <Description>Ask questions and get answers using an AI chatbot.</Description>
+    <Author>
+      <Name>Haseeb</Name>
+      <Email>you@example.com</Email>
+    </Author>
+    <HomepageUrl>https://chat-3u1q.onrender.com</HomepageUrl>
+    <SourceUrl>https://chat-3u1q.onrender.com/index.html</SourceUrl>
+    <IconUrl>https://chat-3u1q.onrender.com/icon.png</IconUrl>
     <Version>1.0.0</Version>
-    <MinApiVersion>1.0</MinApiVersion>
-    <ExtensionId>chatbot-021</ExtensionId>
-    <ExtensionType>dashboard</ExtensionType>
-    <Permissions>
-      <Permission>datasources</Permission>
-      <Permission>tableau</Permission>
-    </Permissions>
-  </WebDataConnector>
+    <Script>https://chat-3u1q.onrender.com/index.html</Script>
+    <DefaultLocale>en_US</DefaultLocale>
+    <RequiredPermissions>
+      <NetworkAccess>full</NetworkAccess>
+    </RequiredPermissions>
+  </Extension>
 </Manifest>
